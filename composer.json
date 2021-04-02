@@ -1,0 +1,18 @@
+{
+    "name": "prodrivers/pico-plugin-envvar-config",
+    "description": "Replace environment variable placeholders in configuration with their values.",
+    "type": "pico-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Prodrivers",
+            "email": "sources@prodrivers.fr"
+        }
+    ],
+    "autoload": {
+        "classmap": [ "EnvironmentVariableInConfiguration.php", "EnvNotFoundException.php" ]
+    },
+    "extra": {
+        "installer-name": "EnvironmentVariableInConfiguration"
+    }
+}
