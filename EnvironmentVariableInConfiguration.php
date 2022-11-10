@@ -67,7 +67,7 @@ final class EnvironmentVariableInConfiguration extends AbstractPicoPlugin
 	 * @return mixed|undefined Parsed value or null if there is no environment variable syntax
 	 */
 	private function parse($value) {
-		if (0 === strpos($value, '%env(') && ')%' === substr($value, -2) && '%env()%' !== $value) {
+		if ($value !== null && 0 === strpos($value, '%env(') && ')%' === substr($value, -2) && '%env()%' !== $value) {
 			$env = substr($value, 5, -2);
 
 			if (!preg_match('/^(?:[-.\w]*+:)*+\w++$/', $env)) {
