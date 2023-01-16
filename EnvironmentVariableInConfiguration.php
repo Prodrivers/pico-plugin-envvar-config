@@ -39,7 +39,18 @@ final class EnvironmentVariableInConfiguration extends AbstractPicoPlugin
 	 */
 	public function onConfigLoaded(array &$config)
 	{
+		// Special processing for base_url, as it always finishes with /
+		$config['base_url'] = rtrim($config['base_url'], '/');
+
 		$this->exploreConfigurationArray($config);
+
+		// Recompute base_url, consider special value 'null' in order to make base_url work with environment variables
+		if(!$config['base_url'] || $config['base_url'] == 'null') {
+			unset($config['base_url']);
+			$config['base_url'] = $this->getBaseUrl();
+		} else {
+			$config['base_url'] = rtrim($config['base_url'], '/') . '/';
+		}
 	}
 
 	/**
