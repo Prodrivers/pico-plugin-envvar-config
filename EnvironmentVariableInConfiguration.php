@@ -40,7 +40,11 @@ final class EnvironmentVariableInConfiguration extends AbstractPicoPlugin
 	public function onConfigLoaded(array &$config)
 	{
 		// Special processing for base_url, as it always finishes with /
-		$config['base_url'] = rtrim($config['base_url'], '/');
+		$recompute_base_url = false;
+		if ($config['base_url']) {
+			$config['base_url'] = rtrim($config['base_url'], '/');
+			$recompute_base_url = true;
+		}
 
 		$this->exploreConfigurationArray($config);
 
@@ -49,7 +53,15 @@ final class EnvironmentVariableInConfiguration extends AbstractPicoPlugin
 			unset($config['base_url']);
 			$config['base_url'] = $this->getBaseUrl();
 		} else {
+			// Trim / on the right and add one to only have one /
 			$config['base_url'] = rtrim($config['base_url'], '/') . '/';
+		}
+
+		// If necessary, recompute values that are dependent on base_url
+		if ($recompute_base_url) {
+			$config['plugins_url'] = $this->getUrlFromPath($this->getPluginsDir());
+			$config['themes_url'] = $this->getUrlFromPath($this->getThemesDir());
+			$config['assets_url'] = $this->getUrlFromPath($config['assets_dir']);
 		}
 	}
 
