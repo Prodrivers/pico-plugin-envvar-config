@@ -10,7 +10,7 @@
         }
     ],
     "autoload": {
-        "classmap": [ "EnvironmentVariableInConfiguration.php", "EnvNotFoundException.php" ]
+        "classmap": ["EnvironmentVariableInConfiguration.php", "EnvNotFoundException.php"]
     },
     "extra": {
         "installer-name": "EnvironmentVariableInConfiguration"

@@ -9,4 +9,5 @@ namespace Prodrivers\EnvVar;
  * @version 1.0
  */
 final class EnvNotFoundException extends \RuntimeException
-{}
+{
+}

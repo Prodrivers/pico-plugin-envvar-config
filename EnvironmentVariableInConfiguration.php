@@ -49,7 +49,7 @@ final class EnvironmentVariableInConfiguration extends AbstractPicoPlugin
 		$this->exploreConfigurationArray($config);
 
 		// Recompute base_url, consider special value 'null' in order to make base_url work with environment variables
-		if(!$config['base_url'] || $config['base_url'] == 'null') {
+		if (!$config['base_url'] || $config['base_url'] == 'null') {
 			unset($config['base_url']);
 			$config['base_url'] = $this->getBaseUrl();
 		} else {
@@ -70,13 +70,14 @@ final class EnvironmentVariableInConfiguration extends AbstractPicoPlugin
 	 *
 	 * @param array &$config Configuration or sub-configuration array reference
 	 */
-	private function exploreConfigurationArray(array &$config) {
+	private function exploreConfigurationArray(array &$config)
+	{
 		foreach ($config as &$value) {
 			if (is_array($value)) {
 				$this->exploreConfigurationArray($value);
 			} else {
 				$newValue = $this->parse($value);
-				if($newValue !== null) {
+				if ($newValue !== null) {
 					$value = $newValue;
 				}
 			}
@@ -89,7 +90,8 @@ final class EnvironmentVariableInConfiguration extends AbstractPicoPlugin
 	 * @param $value Configuration value to parse
 	 * @return mixed|undefined Parsed value or null if there is no environment variable syntax
 	 */
-	private function parse($value) {
+	private function parse($value)
+	{
 		if ($value !== null && 0 === strpos($value, '%env(') && ')%' === substr($value, -2) && '%env()%' !== $value) {
 			$env = substr($value, 5, -2);
 
@@ -109,9 +111,10 @@ final class EnvironmentVariableInConfiguration extends AbstractPicoPlugin
 	 * @param $name Environment variable syntax to parse
 	 * @return mixed Parsed value
 	 */
-	private function parseEnv($name) {
+	private function parseEnv($name)
+	{
 		$i = strpos($name, ':');
-		if($i !== false) {
+		if ($i !== false) {
 			$values = explode(':', $name);
 			$prefix = $values[0];
 			$value = $values[1];
@@ -242,7 +245,7 @@ final class EnvironmentVariableInConfiguration extends AbstractPicoPlugin
 			$env = json_decode($env, true);
 
 			if (\JSON_ERROR_NONE !== json_last_error()) {
-				throw new RuntimeException(sprintf('Invalid JSON in env var "%s": ', $name).json_last_error_msg());
+				throw new RuntimeException(sprintf('Invalid JSON in env var "%s": ', $name) . json_last_error_msg());
 			}
 
 			if (null !== $env && !\is_array($env)) {
